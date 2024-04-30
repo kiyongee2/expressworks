@@ -8,3 +8,8 @@ var array = [];
 array.push(msg);
 
 console.log(msg);
+
+var id;
+var result = (id !==null && id !== undefined) ?
+    "아이디가 입력되었습니다." : "아이디가 입력되지 않았습니다.";
+console.log(result);
