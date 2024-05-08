@@ -19,6 +19,7 @@
             <th>제목</th>
             <th>작성자</th>
             <th>작성일</th>
+            <th>조회수</th>
             <th>삭제</th>
           </tr>
         </thead>
@@ -29,8 +30,11 @@
             <td><a href="/detail/<%=posts[i].id %>"><%= posts[i].title %></a></td>
             <td><%= posts[i].userid %></td>
             <td><%= posts[i].createdate %></td>
+            <td><%= posts[i].hits %></td>
             <td><a href="/delete/<%=posts[i].id %>" 
-                   onclick="return confirm('정말로 삭제하시겠습니까?')"><button>삭제</button></a></td>
+                   onclick="return confirm('정말로 삭제하시겠습니까?')">
+                   <button class="btn btn-outline-danger btn-sm">삭제</button></a>
+            </td>
           </tr>
         <% } %>
         </tbody>

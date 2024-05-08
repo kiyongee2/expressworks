@@ -8,13 +8,10 @@ var db = mysql.createConnection({
 });
 
 db.connect();
-/*conn.query("select * from post", function(err, rows, fields){
-    if(err) throw err;
-    console.log(rows);
-})*/
 
 // express framwork
 const express = require('express');
+const ejs = require('ejs');
 const app = express();
 
 //body-parser 
@@ -152,24 +149,20 @@ app.get('/enter', (req, res) => {
 
 // 포스트 쓰기
 app.post('/save', upload.single('userfile'), function(req, res){
-    //console.log(req.body);  //입력 요청
-    // console.log(req.body.title); 
-    // console.log(req.body.content);  
-    // console.log(req.body.createdate);  
     console.log(req.file);
-    // console.log("저장 완료!!");
 
-    const {title, content, createdate, userfile} = req.body; 
+    const {title, content, userfile} = req.body; 
     const {userid} = req.session.user;
 
-    //데이터베이스에 저장
-    let sql = `insert into post (title, content, createdate, userfile, userid) 
-                values ("${title}", "${content}", "${createdate}", "${userfile}", "${userid}")`;
-    //let params = [title, content, createdate, userfile, userid];
-    db.query(sql, function(err, result){
+    //백틱 템플릿 문제 - 글쓰기 할때 쌍따옴표 사용하면 다운됨(홑따옴표는 가능)
+    // ? 사용하여 동적 바인딩 구문을 사용함
+    let sql = "insert into post (title, content, createdate, userfile, userid) "
+               + "values (?, ?, now(), ?, ?)";
+    let params = [title, content, userfile, userid];
+    db.query(sql, params, function(err, results){
         if(err) throw err;
         console.log('글쓰기 완료');
-        res.redirect('/list')
+        res.redirect('/list')   
     });
     //res.send('포스트 추가');
 })
@@ -182,17 +175,24 @@ app.get('/list', function(req, res){
     db.query(sql, function(err, results){
         if(err) throw err;
         //console.log(results);
-        res.render('list.ejs', {posts: results});
+        res.render('list', {posts: results});
     })
     //res.sendFile(__dirname + '/list.html');
 })
 
 // 포스트 상세보기
 app.get('/detail/:id', function(req, res){
-    // console.log(req.params.id);
     //console.log("sessionId:", res.locals.sessionId);
-    const id = req.params.id;
-    const sql = "select * from post where id = ?";
+    let id = req.params.id;
+
+    // 조회수 증가
+    let sql = "update post set hits = hits + 1 where id = ?";
+    db.query(sql, [id], (err, results) => {
+        if(err) throw err;
+    })
+
+    // 글 상세보기
+    sql = "select * from post where id = ?";
     db.query(sql, [id], (err, results) => {
         if(err) throw err;
         // console.log(results);
@@ -201,12 +201,8 @@ app.get('/detail/:id', function(req, res){
             res.status(404).send("요청하신 데이터를 찾을 수 없습니다.");
         }else{
             //res.status(200).render('detail.ejs', {post: result});
-            
             const post = results[0];
-            //post.createdate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
-            //post.createdate = moment(post.createdate);
-            //post.createdate.format('YYYY-MM-DD HH:mm:ss');
-            res.status(200).render('detail.ejs', { post: post});
+            res.status(200).render('detail', { post: post});
         }
     })
     //res.render('detail.ejs');
@@ -214,8 +210,8 @@ app.get('/detail/:id', function(req, res){
 
 // 포스트 삭제
 app.get("/delete/:id", function(req, res){
-    const id = req.params.id;
-    const sql = "delete from post where id = ?";
+    let id = req.params.id;
+    let sql = "delete from post where id = ?";
     db.query(sql, [id], (err, results) => {
         if(err) throw err;
         console.log("삭제 완료!!");
@@ -226,8 +222,8 @@ app.get("/delete/:id", function(req, res){
 // 포스트 수정 폼
 app.get("/edit/:id", (req, res) =>{
     console.log(req.params.id);
-    const id = req.params.id;
-    const sql = "select * from post where id = ?";
+    let id = req.params.id;
+    let sql = "select * from post where id = ?";
     db.query(sql, [id], (err, result, fields) => {
         if(err) throw err;
         res.render("edit.ejs", {data: result});
