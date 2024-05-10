@@ -1,0 +1,32 @@
+
+@server = http://localhost:3000
+
+### GET 요청 보내기
+GET {{server}}/people
+
+### POST 요청 보내기
+POST {{server}}/people
+Content-Type: application/json
+
+{
+    "name": "test",
+    "age": 27,
+    "email": "test@spreatics.com"
+}
+
+### 생성한 문서 확인(이메일로 검색)
+GET {{server}}/people/jerrty@spreatics.com
+
+
+### 문서 수정
+PUT {{server}}/people/jerrty@spreatics.com
+Content-Type: application/json
+
+{
+    "age": 17,
+    "email": "jerry@spreatics.com"
+}
+
+### 문서 삭제
+DELETE {{server}}/people/test@spreatics.com
+
