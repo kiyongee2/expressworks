@@ -1,0 +1,23 @@
+<%- include('header.ejs')  %>
+
+<section>
+    <form action="/contact" method="post">
+        <h4>문의하기</h4>
+        <ul>
+            <li>이름: <input type="text" name="name" required> </li>
+            <li>연락처: <input type="text" name="phone" required> </li>
+            <li>이메일: <input type="text" name="email" required> </li>
+            <li>내용: <br>
+                <textarea name="memo" cols="50" rows="10"></textarea> 
+            </li>
+             <button type="submit">문의하기</button>
+        </ul>
+    </form>
+
+    <form action="/photo" method="POST" enctype="multipart/form-data">
+        <input type="file" name="picture" accept="images/*">
+        <button type="submit">첨부</button>
+    </form>
+</section>
+
+<%- include('footer.ejs')  %>

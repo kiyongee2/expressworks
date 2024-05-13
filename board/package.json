@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "init": "^0.1.2",
+    "mongodb": "^6.6.1"
+  }
+}

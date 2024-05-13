@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -13,6 +14,11 @@
             <a href="/profile">프로필</a> |
             <a href="/map">찾아오시는길</a> |
             <a href="/contact">문의하기</a> |
-            <a href="/contactList">문의게시판</a> 
+            <a href="/contactList">문의게시판</a> |
+            <% if(sessionId){ %>
+                <a href="/logout">(<%= sessionId %>님)로그아웃</a> 
+            <% }else{ %>
+                <a href="/login">로그인</a>
+            <% } %>
         </nav>
     </header>

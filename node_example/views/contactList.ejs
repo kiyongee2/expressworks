@@ -2,6 +2,12 @@
 
 <section>
     <h4>문의 게시판</h4>
+    <!-- 검색 -->
+    <form action="/contactList" method="get">
+        <input type="text" name="keyword" placeholder="검색어 입력">
+        <button type="submit" class="sbtn">검색</button>
+    </form>
+    
     <table border="1">
         <thead>
             <tr>
@@ -11,6 +17,8 @@
                 <th>이메일</th>
                 <th>문의내용</th>
                 <th>등록일</th>
+                <th>파일경로</th>
+                <th>이미지</th>
                 <th>삭제</th>
             </tr>
         </thead>
@@ -23,6 +31,8 @@
                 <td><%=item.email %></td>
                 <td><%- item.memo.replaceAll('\n', '<br>') %></td>
                 <td><%=item.regdate %></td>
+                <td><%=item.filename %></td>
+                <td><img src="<%=item.filename %>"></td>
                 <td><a href="/deleteContact?idx=<%=item.idx %>"
                     onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a></td>
             </tr>
@@ -30,5 +40,17 @@
         </tbody>
     </table>
 </section>
+<script>
+    /*$(document).ready(function(){
+        alert("hi~");
+    })*/
 
+    $(function(){
+        //alert("hi~")
+        $('.sbtn').click(function(){
+            let inputValue = $('#sword').val();
+            location.href = "\\search?value=" + inputValue;
+        })
+    })
+</script>
 <%- include('footer.ejs')  %>

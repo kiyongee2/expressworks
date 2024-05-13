@@ -23,7 +23,8 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 
 // 정적 파일
-app.use(express.static('public'));
+//app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 // 파일 업로드
 const multer = require('multer');

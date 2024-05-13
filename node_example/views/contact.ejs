@@ -1,7 +1,7 @@
 <%- include('header.ejs')  %>
 
 <section>
-    <form action="/contact" method="post">
+    <form action="/contact" method="post" enctype="multipart/form-data">
         <h4>문의하기</h4>
         <ul>
             <li>이름: <input type="text" name="name" required> </li>
@@ -10,7 +10,10 @@
             <li>내용: <br>
                 <textarea name="memo" cols="50" rows="10"></textarea> 
             </li>
-             <button>문의하기</button>
+            <li>
+                <input type="file" name="userfile" accept="images/*">
+            </li>
+             <button type="submit">문의하기</button>
         </ul>
     </form>
 </section>
