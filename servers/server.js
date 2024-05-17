@@ -239,7 +239,7 @@ app.post("/edit", function(req, res){
     let params = [title, content, createdate, id];
     db.query(sql, params, function(err, result){
         if(err) throw err;
-        console.log('글쓰기 완료');
+        console.log('글수정 완료');
         res.redirect('/list');
     });
     //res.send('포스트 수정');

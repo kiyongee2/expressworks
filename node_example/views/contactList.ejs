@@ -4,7 +4,7 @@
     <h4>문의 게시판</h4>
     <!-- 검색 -->
     <form action="/contactList" method="get">
-        <input type="text" name="keyword" placeholder="검색어 입력">
+        <input type="text" name="keyword" value="<%= kw %>" placeholder="검색어 입력">
         <button type="submit" class="sbtn">검색</button>
     </form>
     
@@ -15,42 +15,60 @@
                 <th>성명</th>
                 <th>연락처</th>
                 <th>이메일</th>
+                <th>제목</th>
                 <th>문의내용</th>
                 <th>등록일</th>
-                <th>파일경로</th>
-                <th>이미지</th>
+                <!-- <th>파일경로</th>
+                <th>이미지</th> -->
                 <th>삭제</th>
             </tr>
         </thead>
         <tbody>
-            <% lists.forEach(function(item){ %>
+            <% lists.contents.forEach(function(list){ %>
             <tr>
-                <td><%=item.idx %></td>
-                <td><%=item.name %></td>
-                <td><%=item.phone %></td>
-                <td><%=item.email %></td>
-                <td><%- item.memo.replaceAll('\n', '<br>') %></td>
-                <td><%=item.regdate %></td>
-                <td><%=item.filename %></td>
-                <td><img src="<%=item.filename %>"></td>
-                <td><a href="/deleteContact?idx=<%=item.idx %>"
+                <td><%=list.idx %></td>
+                <td><%=list.name %></td>
+                <td><%=list.phone %></td>
+                <td><%=list.email %></td>
+                <td><a href="/detail/<%=list.idx %>"><%=list.title %></a></td>
+                <td><%- list.memo.replaceAll('\n', '<br>') %></td>
+                <td><%=list.regdate %></td>
+                <!-- <td><%=list.filename %></td>
+                <td><img src="<%=list.filename %>"></td> -->
+                <td><a href="/deleteContact?idx=<%=list.idx %>"
                     onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a></td>
             </tr>
             <% }) %>
         </tbody>
     </table>
+
+    <!-- 페이지 처리 -->
+    <!-- <%=lists.startPage %>
+    <%=lists.endPage %> -->
+    <!-- 이전 페이지 -->
+    <% if(lists.startPage > 1){ %>
+        <span><a href="?pageNum=<%=lists.startPage - 1 %>"> 이전</a></span>
+    <% }else{ %>
+        <span>이전</span>
+    <% } %>
+    <!-- 현재 페이지 -->
+    <% for(var i=lists.startPage; i<= lists.endPage; i++){ %>
+        <% if(lists.currentPage === i){ %>
+            <span><a href="?pageNum=<%=i %>"><b><%=i %></b></a></span>
+        <% } else { %>
+            <span><a href="?pageNum=<%=i %>"> <%=i %></a></span>
+        <% } %>
+    <% } %>
+
+    <% if(lists.startPage < lists.endPage){ %>
+        <span><a href="?pageNum=<%=lists.startPage + 1 %>"> 다음</a></span>
+    <% } else { %>
+        <span>다음</span>
+    <% } %>
 </section>
 <script>
     /*$(document).ready(function(){
         alert("hi~");
     })*/
-
-    $(function(){
-        //alert("hi~")
-        $('.sbtn').click(function(){
-            let inputValue = $('#sword').val();
-            location.href = "\\search?value=" + inputValue;
-        })
-    })
 </script>
 <%- include('footer.ejs')  %>

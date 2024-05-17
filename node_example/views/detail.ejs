@@ -1,0 +1,26 @@
+<%- include('header.ejs')  %>
+
+<section>
+    <h4>문의 상세 내용</h4>
+    <p>제목: <%=contact.title  %></p>
+    <p>문의 내용:<br>
+        <textarea rows="5" cols="40"><%=contact.memo %></textarea>
+    </p>
+
+    <!-- 댓글 목록 -->
+
+    <!-- 댓글 등록 -->
+    <form action="/insertReply" method="post">
+        <input type="hidden" name="idx" value="<%=contact.idx %>">
+        <p> 댓글 작성자:
+            <input type="text" name="replyer" value="<%=sessionId %>">
+        </p>
+        <p>
+            <textarea rows="4" cols="50" name="rcontent"
+                placeholder="댓글을 남겨보세요"></textarea>
+        </p>
+        <button type="submit">등록</button>
+    </form>
+</section>
+
+<%- include('footer.ejs')  %>
